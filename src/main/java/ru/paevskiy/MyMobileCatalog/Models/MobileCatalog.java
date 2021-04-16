@@ -5,13 +5,13 @@ import java.util.List;
 public class MobileCatalog {
 
     private int id;
-    private String fullName;
-    private String position;
-    private Department myDepartment;
-    private List<String> serviceNumber; // Предположим 22-22
-    private List<String> personalPhoneNumber; // +375447783866
+    private String fullName;    //ФИО
+    private String position;    //Должность
+    private Department myDepartment;    //Подразделение
+    private List<String> serviceNumber; // Служебный номер	 22-22
+    private List<String> personalPhoneNumber; //Личный номер телефона +375447783866
     //    @Pattern(regexp = "\\+375[0-9]{9}", message = "Телефонный номер должен начинаться с +375, затем - 9 цифр")
-    private List<String> serviceMobilePhoneNumber;  // +375447783866
+    private List<String> serviceMobilePhoneNumber;  //  Служебный моб номер +375447783866
 
     public MobileCatalog(int id, String fullName, String position, Department myDepartment, List<String> serviceNumber, List<String> personalPhoneNumber, List<String> serviceMobilePhoneNumber) {
         this.id = id;

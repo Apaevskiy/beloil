@@ -1,7 +1,7 @@
 const app = angular.module("MobileCatalogManagement", []);
 
 app.controller("MobileCatalogController", function($scope, $http) {
-    let listDepartment = new Map();
+    let listDepartment = new Map(); // Инициализация списка подразделений
     listDepartment.set("1","Отдел маркетинга");
     listDepartment.set("2","Отдел сбыта");
     listDepartment.set("3","Отдел кадров");
@@ -12,7 +12,7 @@ app.controller("MobileCatalogController", function($scope, $http) {
     listDepartment.set("8","Идеологический отдел");
     let selestAllDepartments = document.getElementById("allDepartments");
     let selestAllDepartmentsForFilter = document.getElementById("allDepartmentsForFilter");
-    for (const [key, value] of listDepartment) {
+    for (const [key, value] of listDepartment) {    // Добавление списка подразделений в Select
         selestAllDepartments.options.add(new Option(value,key));
         selestAllDepartmentsForFilter.options.add(new Option(value,key));
     }
@@ -31,7 +31,8 @@ app.controller("MobileCatalogController", function($scope, $http) {
         personalPhoneNumber: [],
         serviceMobilePhoneNumber: []
     };
-    _refreshMobileCatalogData(); // get запрос на получение всех пользователей
+    _refreshMobileCatalogData();
+    // get запрос на получение всех пользователей
     function _refreshMobileCatalogData() {
         $http({
             method: 'GET',
@@ -47,11 +48,13 @@ app.controller("MobileCatalogController", function($scope, $http) {
         );
     }
 
-    $scope.editMobileCatalog = function(catalog) {  // перенос данных с таблицы в форму для дальнейшего put-запроса
+    // перенос данных с таблицы в форму для дальнейшего put-запроса
+    $scope.editMobileCatalog = function(catalog) {
         $scope.catalogForm = catalog;
         document.getElementById("allDepartments").value=catalog.myDepartment.departmentId;
     };
 
+    // put или post запрос
     $scope.submitMobileCatalog = function(mobileCatalog) {
         let method;
         let url;
@@ -80,16 +83,18 @@ app.controller("MobileCatalogController", function($scope, $http) {
         ).then(_success, _error);
     };
 
+    //  Запрос о удалении
     $scope.deleteMobileCatalog = function(id) {
         $http({
             method: 'DELETE',
             url: '/mobileCatalog/' + id
         }).then(_success, _error);
     };
+    // Очистка формы
     $scope.createMobileCatalog = function() {
         _clearFormData();
     }
-
+    // Запрос о удалении списка пользователей
     $scope.deleteListMobileCatalog = function() {
         const arrayChecked = [];
 
@@ -111,10 +116,7 @@ app.controller("MobileCatalogController", function($scope, $http) {
         else {alert("Выберите поля")}
     };
 
-    $scope.createMobileCatalog = function() {
-        _clearFormData();
-    }
-
+    // Фильтр по подразделению
     $scope.myFilter = function (item){
         let allDepartmentsForFilter = document.getElementById("allDepartmentsForFilter");
         if (allDepartmentsForFilter.value==""){
@@ -123,6 +125,7 @@ app.controller("MobileCatalogController", function($scope, $http) {
             return item.myDepartment.departmentId == allDepartmentsForFilter.value;
         }
     }
+    // Функция, выполняемая при успешном выполнении другой функции
     function _success() {
         _refreshMobileCatalogData();
         _clearFormData();

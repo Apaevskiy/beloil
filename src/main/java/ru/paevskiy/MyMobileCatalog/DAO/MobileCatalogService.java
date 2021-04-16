@@ -14,6 +14,7 @@ public class MobileCatalogService {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    // Создание нового пользователя
     public void create(MobileCatalog mobileCatalog) {
         String save = "insert into public.mobilecatalog " +
                 "(fullName, position,departmentId,serviceNumber,personalPhoneNumber,serviceMobilePhoneNumber) " +
@@ -25,13 +26,13 @@ public class MobileCatalogService {
                 mobileCatalog.listToSql(mobileCatalog.getServiceMobilePhoneNumber()) + "')";
         jdbcTemplate.update(save);
     }
-
+    // Получение всех пользователей
     public List<MobileCatalog> readAll() {
         String read = "Select mc.id, mc.fullname, mc.position, mc.servicenumber, mc.personalphonenumber,mc.servicemobilephonenumber, dps.departmentsid, dps.name from mobilecatalog mc " +
                 "join departments dps ON dps.departmentsid=mc.departmentid order by mc.id";
         return jdbcTemplate.query(read, new MobileCatalogMapper());
     }
-
+    // Удаление пользователя по id
     public boolean delete(int id) {
         if (existsById(id)) {
             String strDelete = "delete from mobilecatalog where id = "+id;
@@ -40,6 +41,7 @@ public class MobileCatalogService {
         }
         return false;
     }
+    // Удаление нескольких пользователей по id
     public boolean deleteList(int[] idList) {
         StringBuilder strDeleteList = new StringBuilder("delete from mobilecatalog where id=");
         int i=0;
@@ -60,6 +62,7 @@ public class MobileCatalogService {
         jdbcTemplate.update(strDeleteList.toString());
         return true;
     }
+    // Изменение пользователя по id
     public boolean updateCatalog(MobileCatalog mobileCatalog, int id) {
         if (existsById(id)) {
             String strUpdate = "update public.MobileCatalog set " +
@@ -75,6 +78,7 @@ public class MobileCatalogService {
         }
         return false;
     }
+    // Проверка, есть ли пользователь с таким id
     public boolean existsById(int id){
         String sql = "select COUNT(*) from mobilecatalog where id = '"+id+"' limit 1";
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class);

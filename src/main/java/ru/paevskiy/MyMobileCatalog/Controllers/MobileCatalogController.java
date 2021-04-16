@@ -9,7 +9,7 @@ public class MobileCatalogController {
     public MobileCatalogController() {
     }
 
-    @RequestMapping("/")
+    @RequestMapping("/")    // Получение главной страницы
     public String index() {
         return "index";
     }

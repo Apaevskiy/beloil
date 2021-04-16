@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.Arrays;
 
 public class MobileCatalogMapper implements RowMapper<MobileCatalog> {
+    // Обработка полученных данных с БД
     @Override
     public MobileCatalog mapRow(ResultSet resultSet, int i) throws SQLException {
         String[] serviceNumber = (String[])resultSet.getArray("servicenumber").getArray();
