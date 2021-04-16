@@ -7,7 +7,7 @@
 
     <script th:src="@{/index.js}"></script>
     <link th:href="@{/index.css}" rel="stylesheet" />
-    </head>
+</head>
 <body ng-app="MobileCatalogManagement" ng-controller="MobileCatalogController">
 <h3>BELOIL</h3>
 <!--форма ввода-->
@@ -33,7 +33,7 @@
 <!--поиск по всем полям-->
 <label>Find<input type="text" ng-model="search"/></label>
 <!--удаление отмеченных полей-->
-<input type="submit" value="Submit" class="blue-button" ng-click="deleteListMobileCatalog()"/>
+<a class="delete-button" ng-click="deleteListMobileCatalog()">Remove marked fields</a><br><br>
 <table border="1">
     <tr>
         <th></th>
@@ -54,10 +54,10 @@
         <td> {{ mobileCatalog.fullName }}</td>
         <td >{{ mobileCatalog.position }}</td>
         <td >{{ mobileCatalog.myDepartment.nameDepartment}}</td>
-        <td >{{ mobileCatalog.serviceNumber.join(', ')}}</td>
-<!--        .join(', ')-->
-        <td >{{ mobileCatalog.personalPhoneNumber.join(', ')}}</td>
-        <td >{{ mobileCatalog.serviceMobilePhoneNumber.join(', ')}}</td>
+        <td >{{ mobileCatalog.serviceNumber}}</td>
+        <!--        .join(', ')-->
+        <td >{{ mobileCatalog.personalPhoneNumber}}</td>
+        <td >{{ mobileCatalog.serviceMobilePhoneNumber}}</td>
         <td>
             <a ng-click="editMobileCatalog(mobileCatalog)" class="edit-button">Edit</a>
         </td>

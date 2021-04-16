@@ -1,23 +1,13 @@
 package ru.paevskiy.MyMobileCatalog.Models;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.Collection;
-
-@Entity
-@Table(name = "departments")
 public class Department {
-    @Id
-    @Column(name = "departmentsid")
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private int departmentId;
-
-    @Column(name = "name")
     private String nameDepartment;
-
-    @OneToMany(mappedBy = "mydepartment", fetch = FetchType.EAGER)
-    private Collection<MobileCatalog> catalogs;
 
     public int getDepartmentId() {
         return departmentId;
@@ -28,6 +18,11 @@ public class Department {
     }
 
     public void setNameDepartment(String nameDepartment) {
+        this.nameDepartment = nameDepartment;
+    }
+
+    public Department(int departmentId, String nameDepartment) {
+        this.departmentId = departmentId;
         this.nameDepartment = nameDepartment;
     }
 

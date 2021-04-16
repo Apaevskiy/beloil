@@ -1,46 +1,33 @@
 package ru.paevskiy.MyMobileCatalog.Models;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-@Entity
-@Table(name = "mobilecatalog")
+import java.util.List;
+
 public class MobileCatalog {
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private int id;
-
-    @NotEmpty(message = "Name should not be empty")
-    @Column(name = "fullname")
     private String fullName;
-
-    @Column(name = "position")
-    @NotEmpty(message = "Position should not be empty")
     private String position;
+    private Department myDepartment;
+    private List<String> serviceNumber; // Предположим 22-22
+    private List<String> personalPhoneNumber; // +375447783866
+//    @Pattern(regexp = "\\+375[0-9]{9}", message = "Телефонный номер должен начинаться с +375, затем - 9 цифр")
+    private List<String> serviceMobilePhoneNumber;  // +375447783866
 
-//    @Column(name = "departmentid")
-    @NotEmpty(message = "Department ID should not be empty")
-    @ManyToOne(optional = false, cascade = CascadeType.ALL)
-    @JoinColumn(name = "departmentid")
-    private Department mydepartment;
-
-    @Column(name = "servicenumber")
-//    @Type(type = "ru.easyjava.data.hibernate.type.NetworkObjectType")
-    @NotEmpty(message = "Service number should not be empty")
-    @Size(max = 4, message = "Service number should be no more 4 characters")
-    private String serviceNumber; // Предположим 22-22
-
-    @Column(name = "personalphonenumber")
-    @Pattern(regexp = "\\+375[0-9]{9}", message = "Телефонный номер должен начинаться с +375, затем - 9 цифр")
-    private String personalPhoneNumber; // +375447783866
-
-    @Column(name = "servicemobilephonenumber")
-    @Pattern(regexp = "\\+375[0-9]{9}", message = "Телефонный номер должен начинаться с +375, затем - 9 цифр")
-    private String serviceMobilePhoneNumber;  // +375447783866=
+    public MobileCatalog(int id, String fullName, String position, Department myDepartment, List<String> serviceNumber, List<String> personalPhoneNumber, List<String> serviceMobilePhoneNumber) {
+        this.id = id;
+        this.fullName = fullName;
+        this.position = position;
+        this.myDepartment = myDepartment;
+        this.serviceNumber = serviceNumber;
+        this.personalPhoneNumber = personalPhoneNumber;
+        this.serviceMobilePhoneNumber = serviceMobilePhoneNumber;
+    }
 
     public int getId() {
         return id;
@@ -67,34 +54,34 @@ public class MobileCatalog {
     }
 
     public Department getMyDepartment() {
-        return mydepartment;
+        return myDepartment;
     }
 
     public void setMyDepartment(Department myDepartment) {
-        this.mydepartment = myDepartment;
+        this.myDepartment = myDepartment;
     }
 
-    public String getServiceNumber() {
+    public List<String> getServiceNumber() {
         return serviceNumber;
     }
 
-    public void setServiceNumber(String serviceNumber) {
+    public void setServiceNumber(List<String> serviceNumber) {
         this.serviceNumber = serviceNumber;
     }
 
-    public String getPersonalPhoneNumber() {
+    public List<String> getPersonalPhoneNumber() {
         return personalPhoneNumber;
     }
 
-    public void setPersonalPhoneNumber(String personalPhoneNumber) {
+    public void setPersonalPhoneNumber(List<String> personalPhoneNumber) {
         this.personalPhoneNumber = personalPhoneNumber;
     }
 
-    public String getServiceMobilePhoneNumber() {
+    public List<String> getServiceMobilePhoneNumber() {
         return serviceMobilePhoneNumber;
     }
 
-    public void setServiceMobilePhoneNumber(String serviceMobilePhoneNumber) {
+    public void setServiceMobilePhoneNumber(List<String> serviceMobilePhoneNumber) {
         this.serviceMobilePhoneNumber = serviceMobilePhoneNumber;
     }
 
@@ -104,10 +91,10 @@ public class MobileCatalog {
                 "id=" + id +
                 ", fullName='" + fullName + '\'' +
                 ", position='" + position + '\'' +
-                ", mydepartment=" + mydepartment +
-                ", serviceNumber='" + serviceNumber + '\'' +
-                ", personalPhoneNumber='" + personalPhoneNumber + '\'' +
-                ", serviceMobilePhoneNumber='" + serviceMobilePhoneNumber + '\'' +
+                ", myDepartment=" + myDepartment +
+                ", serviceNumber=" + serviceNumber +
+                ", personalPhoneNumber=" + personalPhoneNumber +
+                ", serviceMobilePhoneNumber=" + serviceMobilePhoneNumber +
                 '}';
     }
 }
