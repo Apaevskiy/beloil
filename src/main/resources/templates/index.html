@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+    <title>AngularJS</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script th:src="@{/index.js}"></script>
+    <link th:href="@{/index.css}" rel="stylesheet" />
+    </head>
+<body ng-app="MobileCatalogManagement" ng-controller="MobileCatalogController">
+<h3>BELOIL</h3>
+<!--форма ввода-->
+<form ng-submit="submitMobileCatalog(catalogForm)" id="formEnterData">
+    <label>Id {{catalogForm.id}}<br></label>
+    <label>FullName <input type="text" ng-model="catalogForm.fullName" /> <br></label>
+    <label>Position<input type="text" ng-model="catalogForm.position"  /><br></label>
+    <label>DepartmentId
+        <select id="allDepartments">
+        </select><br></label>
+    <label>ServiceNumber <input type="text" ng-model="catalogForm.serviceNumber"  /> <br></label>
+    <label>PersonalPhoneNumber<input type="text" ng-model="catalogForm.personalPhoneNumber"  /><br></label>
+    <label>ServiceMobilePhoneNumber <input type="text" ng-model="catalogForm.serviceMobilePhoneNumber"  /></label>
+    <input type="submit" value="Submit" class="blue-button" />
+</form>
+<br/>
+<!--Очищает поля ввода-->
+<a class="create-button" ng-click="createMobileCatalog()">Create Mobile Catalog</a>
+<!--выбор подразделения-->
+<label>filter of department:<select id="allDepartmentsForFilter" ng-model="allDepartmentsForFilter">
+    <option value selected="selected">Show all</option>
+</select></label>
+<!--поиск по всем полям-->
+<label>Find<input type="text" ng-model="search"/></label>
+<!--удаление отмеченных полей-->
+<input type="submit" value="Submit" class="blue-button" ng-click="deleteListMobileCatalog()"/>
+<table border="1">
+    <tr>
+        <th></th>
+        <th>id</th>
+        <th>fullName</th>
+        <th>position</th>
+        <th>departmentId</th>
+        <th>serviceNumber</th>
+        <th>personalPhoneNumber</th>
+        <th>serviceMobilePhoneNumber</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <!-- $scope.employees -->
+    <tr data-ng-repeat="mobileCatalog in catalogs | filter: myFilter | filter: search">
+        <td><input type="checkbox" class="array-checked" name="technology" value={{mobileCatalog.id}}></td>
+        <td> {{ mobileCatalog.id }}</td>
+        <td> {{ mobileCatalog.fullName }}</td>
+        <td >{{ mobileCatalog.position }}</td>
+        <td >{{ mobileCatalog.myDepartment.nameDepartment}}</td>
+        <td >{{ mobileCatalog.serviceNumber.join(', ')}}</td>
+<!--        .join(', ')-->
+        <td >{{ mobileCatalog.personalPhoneNumber.join(', ')}}</td>
+        <td >{{ mobileCatalog.serviceMobilePhoneNumber.join(', ')}}</td>
+        <td>
+            <a ng-click="editMobileCatalog(mobileCatalog)" class="edit-button">Edit</a>
+        </td>
+        <td>
+            <a ng-click="deleteMobileCatalog(mobileCatalog)" class="delete-button">Delete</a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
