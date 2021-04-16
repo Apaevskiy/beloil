@@ -1,0 +1,28 @@
+version: '3.7'
+services:
+  server:
+    container_name: servercontainer
+    image: app.jar
+    ports:
+      - 8080:8080
+    links:
+      - db:postgresql-mycon
+    depends_on:
+      - db
+    networks:
+      - my_network
+
+  db:
+    container_name: postgresql-mycon
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=postgresql
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=beloil
+    networks:
+      - my_network
+networks:
+  my_network:
+    driver: bridge

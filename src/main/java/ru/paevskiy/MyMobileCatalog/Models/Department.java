@@ -1,9 +1,5 @@
 package ru.paevskiy.MyMobileCatalog.Models;
 
-import org.springframework.stereotype.Component;
-
-import javax.persistence.*;
-import java.util.Collection;
 public class Department {
 
     private int departmentId;

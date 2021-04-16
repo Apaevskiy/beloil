@@ -1,4 +1,4 @@
--- create database beloil;
+-- CREATE DATABASE beloil;
 drop table if exists public.mobilecatalog;
 drop table if exists public.departments;
 

@@ -4,12 +4,9 @@ import org.springframework.jdbc.core.RowMapper;
 import ru.paevskiy.MyMobileCatalog.Models.Department;
 import ru.paevskiy.MyMobileCatalog.Models.MobileCatalog;
 
-import java.sql.Array;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class MobileCatalogMapper implements RowMapper<MobileCatalog> {
     @Override
