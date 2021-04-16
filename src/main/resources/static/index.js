@@ -80,10 +80,10 @@ app.controller("MobileCatalogController", function($scope, $http) {
         ).then(_success, _error);
     };
 
-    $scope.deleteMobileCatalog = function(mobileCatalog) {
+    $scope.deleteMobileCatalog = function(id) {
         $http({
             method: 'DELETE',
-            url: '/mobileCatalog/' + mobileCatalog.id
+            url: '/mobileCatalog/' + id
         }).then(_success, _error);
     };
     $scope.createMobileCatalog = function() {
@@ -96,16 +96,19 @@ app.controller("MobileCatalogController", function($scope, $http) {
         $('.array-checked:checked').each(function() {
             arrayChecked.push($(this).val());
         });
-
         console.log(arrayChecked);
-        $http({
-            method: 'DELETE',
-            url: '/mobileCatalog/All',
-            data: angular.toJson(arrayChecked),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        }).then(_success, _error);
+        if(arrayChecked.length > 1){
+            $http({
+                method: 'DELETE',
+                url: '/mobileCatalog/All',
+                data: angular.toJson(arrayChecked),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }).then(_success, _error);
+        }
+        else if(arrayChecked.length === 1){$scope.deleteMobileCatalog(arrayChecked[0])}
+        else {alert("Выберите поля")}
     };
 
     $scope.createMobileCatalog = function() {
@@ -113,7 +116,6 @@ app.controller("MobileCatalogController", function($scope, $http) {
     }
 
     $scope.myFilter = function (item){
-        // let
         let allDepartmentsForFilter = document.getElementById("allDepartmentsForFilter");
         if (allDepartmentsForFilter.value==""){
             return item;

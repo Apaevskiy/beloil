@@ -8,44 +8,50 @@
     <script th:src="@{/index.js}"></script>
     <link th:href="@{/index.css}" rel="stylesheet" />
 </head>
-<body ng-app="MobileCatalogManagement" ng-controller="MobileCatalogController">
-<h3>BELOIL</h3>
+<body ng-app="MobileCatalogManagement" ng-controller="MobileCatalogController" >
 <!--форма ввода-->
+<div class="container">
+    <div>
 <form ng-submit="submitMobileCatalog(catalogForm)" id="formEnterData">
-    <label>Id {{catalogForm.id}}<br></label>
-    <label>FullName <input type="text" ng-model="catalogForm.fullName" /> <br></label>
-    <label>Position<input type="text" ng-model="catalogForm.position"  /><br></label>
-    <label>DepartmentId
+    <p><label>Id {{catalogForm.id}}</label></p>
+    <p><label>ФИО</label> <input type="text" ng-model="catalogForm.fullName" /></p>
+    <p><label>Должность</label><input type="text" ng-model="catalogForm.position"  /></p>
+    <p><label>Структурное подразделение</label>
         <select id="allDepartments">
-        </select><br></label>
-    <label>ServiceNumber <input type="text" ng-model="catalogForm.serviceNumber"  /> <br></label>
-    <label>PersonalPhoneNumber<input type="text" ng-model="catalogForm.personalPhoneNumber"  /><br></label>
-    <label>ServiceMobilePhoneNumber <input type="text" ng-model="catalogForm.serviceMobilePhoneNumber"  /></label>
-    <input type="submit" value="Submit" class="blue-button" />
+        </select></p>
+    <p><label>Служебный номер</label> <input type="text" ng-model="catalogForm.serviceNumber"  /></p>
+    <p><label>Личный номер телефона</label><input type="text" ng-model="catalogForm.personalPhoneNumber"  /></p>
+    <p><label>Служебный мобильный номер телефона</label> <input type="text" ng-model="catalogForm.serviceMobilePhoneNumber"  /></p>
+    <p><input type="submit" value="Отправить" class="blue-button" /></p>
 </form>
+    </div>
 <br/>
+    <div>
 <!--Очищает поля ввода-->
-<a class="create-button" ng-click="createMobileCatalog()">Create Mobile Catalog</a>
-<!--выбор подразделения-->
-<label>filter of department:<select id="allDepartmentsForFilter" ng-model="allDepartmentsForFilter">
-    <option value selected="selected">Show all</option>
-</select></label>
+        <p><input type="submit" value="Сброс формы" class="blue-button" ng-click="createMobileCatalog()"/>
+
+        <!--выбор подразделения-->
+<label>Фильтр по подразделению:</label><select id="allDepartmentsForFilter" ng-model="allDepartmentsForFilter">
+    <option value selected="selected">Показать все</option>
+</select>
 <!--поиск по всем полям-->
-<label>Find<input type="text" ng-model="search"/></label>
+<label>Поиск<input type="text" ng-model="search"/></label>
 <!--удаление отмеченных полей-->
-<input type="submit" value="Submit" class="blue-button" ng-click="deleteListMobileCatalog()"/>
+<input type="submit" value="Удалить выбранные элементы" class="blue-button" ng-click="deleteListMobileCatalog()"/></p>
+    </div>
+    <div>
 <table border="1">
     <tr>
         <th></th>
         <th>id</th>
-        <th>fullName</th>
-        <th>position</th>
-        <th>departmentId</th>
-        <th>serviceNumber</th>
-        <th>personalPhoneNumber</th>
-        <th>serviceMobilePhoneNumber</th>
-        <th>Edit</th>
-        <th>Delete</th>
+        <th>ФИО</th>
+        <th>Должность</th>
+        <th>Подразделение </th>
+        <th>Служебный номер </th>
+        <th>Личный номер телефона</th>
+        <th>Служебный моб номер </th>
+        <th>Редактировать</th>
+        <th>Удалить</th>
     </tr>
     <!-- $scope.employees -->
     <tr data-ng-repeat="mobileCatalog in catalogs | filter: myFilter | filter: search">
@@ -61,9 +67,10 @@
             <a ng-click="editMobileCatalog(mobileCatalog)" class="edit-button">Edit</a>
         </td>
         <td>
-            <a ng-click="deleteMobileCatalog(mobileCatalog)" class="delete-button">Delete</a>
+            <a ng-click="deleteMobileCatalog(mobileCatalog.id)" class="delete-button">Delete</a>
         </td>
     </tr>
 </table>
+</div></div>
 </body>
 </html>
