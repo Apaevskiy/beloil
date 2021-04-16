@@ -16,7 +16,7 @@ public class MobileCatalog {
     private Department myDepartment;
     private List<String> serviceNumber; // Предположим 22-22
     private List<String> personalPhoneNumber; // +375447783866
-//    @Pattern(regexp = "\\+375[0-9]{9}", message = "Телефонный номер должен начинаться с +375, затем - 9 цифр")
+    //    @Pattern(regexp = "\\+375[0-9]{9}", message = "Телефонный номер должен начинаться с +375, затем - 9 цифр")
     private List<String> serviceMobilePhoneNumber;  // +375447783866
 
     public MobileCatalog(int id, String fullName, String position, Department myDepartment, List<String> serviceNumber, List<String> personalPhoneNumber, List<String> serviceMobilePhoneNumber) {
@@ -84,7 +84,9 @@ public class MobileCatalog {
     public void setServiceMobilePhoneNumber(List<String> serviceMobilePhoneNumber) {
         this.serviceMobilePhoneNumber = serviceMobilePhoneNumber;
     }
-
+    public String listToSql(List<String> list){
+        return list.toString().replace("[", "{").replace("]", "}");
+    }
     @Override
     public String toString() {
         return "MobileCatalog{" +

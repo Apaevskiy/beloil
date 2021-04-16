@@ -59,22 +59,16 @@ app.controller("MobileCatalogController", function($scope, $http) {
         if ($scope.catalogForm.id == null) {
             method = "POST";
             url = '/mobileCatalog/';
+            $scope.catalogForm.personalPhoneNumber = [$scope.catalogForm.personalPhoneNumber]
+            $scope.catalogForm.serviceMobilePhoneNumber = [$scope.catalogForm.serviceMobilePhoneNumber]
+            $scope.catalogForm.serviceNumber = [$scope.catalogForm.serviceNumber]
         } else {
             method = "PUT";
             url = '/mobileCatalog/' + mobileCatalog.id;
         }
-        // $scope.catalogForm.personalPhoneNumber = [$scope.catalogForm.personalPhoneNumber]
-        // $scope.catalogForm.serviceMobilePhoneNumber = [$scope.catalogForm.serviceMobilePhoneNumber]
-        // $scope.catalogForm.serviceNumber = [$scope.catalogForm.serviceNumber]
-        // $scope.catalogs = [];
+
         let list = document.getElementById("allDepartments")
         $scope.catalogForm.myDepartment = {departmentId : list.value, nameDepartment:listDepartment.get(list.value)}
-        // $scope.catalogForm.myDepartment.departmentId=list.value;
-        // $scope.catalogForm.myDepartment.nameDepartment=listDepartment.get(list.value);
-
-        // console.log("list "+list.value+" value: " + listDepartment.get(list.value));
-        // console.log("method: " + method + " url: " + url );
-        console.log("catalogForm   " + angular.toJson($scope.catalogForm));
         $http({
                 method: method,
                 url: url,
@@ -96,11 +90,22 @@ app.controller("MobileCatalogController", function($scope, $http) {
         _clearFormData();
     }
 
-    $scope.deleteListMobileCatalog = function(mobileCatalog) {
-        // let checkboxes = document.ge("delCheck");
-        // document.getElementsByName()
-        // console.log(checkboxes);
+    $scope.deleteListMobileCatalog = function() {
+        const arrayChecked = [];
 
+        $('.array-checked:checked').each(function() {
+            arrayChecked.push($(this).val());
+        });
+
+        console.log(arrayChecked);
+        $http({
+            method: 'DELETE',
+            url: '/mobileCatalog/All',
+            data: angular.toJson(arrayChecked),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        }).then(_success, _error);
     };
 
     $scope.createMobileCatalog = function() {
@@ -135,13 +140,4 @@ app.controller("MobileCatalogController", function($scope, $http) {
         $scope.catalogForm.personalPhoneNumber= [];
         $scope.catalogForm.serviceMobilePhoneNumber= [];
     }
-});
-$('.array-checked').on('change', function () {
-    const arrayChecked = [];
-
-    $('.array-checked:checked').each(function() {
-        arrayChecked.push($(this).val());
-    });
-
-    console.log(arrayChecked);
 });

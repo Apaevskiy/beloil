@@ -20,15 +20,13 @@ public class MobileCatalogService {
                 "values ('" + mobileCatalog.getFullName() + "', '" +
                 mobileCatalog.getPosition() + "', '" +
                 mobileCatalog.getMyDepartment().getDepartmentId() + "', '" +
-                mobileCatalog.getServiceNumber() + "', '" +
-                mobileCatalog.getPersonalPhoneNumber() + "', '" +
-                mobileCatalog.getServiceMobilePhoneNumber() + "')";
+                mobileCatalog.listToSql(mobileCatalog.getServiceNumber()) + "', '" +
+                mobileCatalog.listToSql(mobileCatalog.getPersonalPhoneNumber()) + "', '" +
+                mobileCatalog.listToSql(mobileCatalog.getServiceMobilePhoneNumber()) + "')";
         jdbcTemplate.update(save);
     }
 
     public List<MobileCatalog> readAll() {
-//        Integer resultSet = jdbcTemplate.queryForObject("select COUNT(*) from mobilecatalog where id = '3' limit 1", Integer.class);
-
         String read = "Select mc.id, mc.fullname, mc.position, mc.servicenumber, mc.personalphonenumber,mc.servicemobilephonenumber, dps.departmentsid, dps.name from mobilecatalog mc " +
                 "join departments dps ON dps.departmentsid=mc.departmentid order by mc.id";
         return jdbcTemplate.query(read, new MobileCatalogMapper());
@@ -42,17 +40,36 @@ public class MobileCatalogService {
         }
         return false;
     }
+    public boolean deleteList(int[] idList) {
+        StringBuilder strDeleteList = new StringBuilder("delete from mobilecatalog where id=");
+        int i=0;
+        while (i<idList.length-1){
+            if (!existsById(idList[i])) {
+                return false;
+            }else {
+                strDeleteList.append(idList[i]);
+                strDeleteList.append(" or id = ");
+            }
+            i++;
+        }
+        if (!existsById(i)) {
+            return false;
+        }else {
+            strDeleteList.append(idList[i]);
+        }
+        jdbcTemplate.update(strDeleteList.toString());
+        return true;
+    }
     public boolean updateCatalog(MobileCatalog mobileCatalog, int id) {
         if (existsById(id)) {
             String strUpdate = "update public.MobileCatalog set " +
                     "fullName='"+mobileCatalog.getFullName()+
                     "', position='"+mobileCatalog.getPosition()+
                     "', departmentid='"+mobileCatalog.getMyDepartment().getDepartmentId()+
-                    "', serviceNumber='"+mobileCatalog.getServiceNumber()+
-                    "', personalPhoneNumber='"+mobileCatalog.getPersonalPhoneNumber()+
-                    "', serviceMobilePhoneNumber='"+mobileCatalog.getServiceMobilePhoneNumber()+
+                    "', serviceNumber='"+mobileCatalog.listToSql(mobileCatalog.getServiceNumber())+
+                    "', personalPhoneNumber='"+mobileCatalog.listToSql(mobileCatalog.getPersonalPhoneNumber())+
+                    "', serviceMobilePhoneNumber='"+mobileCatalog.listToSql(mobileCatalog.getServiceMobilePhoneNumber())+
                     "' where id="+id;
-            System.out.println(strUpdate);
             jdbcTemplate.update(strUpdate);
             return true;
         }

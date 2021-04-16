@@ -33,7 +33,7 @@
 <!--поиск по всем полям-->
 <label>Find<input type="text" ng-model="search"/></label>
 <!--удаление отмеченных полей-->
-<a class="delete-button" ng-click="deleteListMobileCatalog()">Remove marked fields</a><br><br>
+<input type="submit" value="Submit" class="blue-button" ng-click="deleteListMobileCatalog()"/>
 <table border="1">
     <tr>
         <th></th>
@@ -54,10 +54,9 @@
         <td> {{ mobileCatalog.fullName }}</td>
         <td >{{ mobileCatalog.position }}</td>
         <td >{{ mobileCatalog.myDepartment.nameDepartment}}</td>
-        <td >{{ mobileCatalog.serviceNumber}}</td>
-        <!--        .join(', ')-->
-        <td >{{ mobileCatalog.personalPhoneNumber}}</td>
-        <td >{{ mobileCatalog.serviceMobilePhoneNumber}}</td>
+        <td >{{ mobileCatalog.serviceNumber.join(', ')}}</td>
+        <td >{{ mobileCatalog.personalPhoneNumber.join(', ')}}</td>
+        <td >{{ mobileCatalog.serviceMobilePhoneNumber.join(', ')}}</td>
         <td>
             <a ng-click="editMobileCatalog(mobileCatalog)" class="edit-button">Edit</a>
         </td>
