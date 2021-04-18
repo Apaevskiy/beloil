@@ -1,10 +1,12 @@
 package ru.paevskiy.MyMobileCatalog.Models;
 
+import javax.validation.constraints.NotEmpty;
 import java.util.List;
 
 public class MobileCatalog {
 
     private int id;
+    @NotEmpty(message = "Name should not be empty")
     private String fullName;    //ФИО
     private String position;    //Должность
     private Department myDepartment;    //Подразделение

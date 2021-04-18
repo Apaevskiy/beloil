@@ -1,76 +1,105 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" lang="ru">
+
 <head>
-    <title>AngularJS</title>
+    <title>Тестовое задание</title>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script th:src="@{/index.js}"></script>
     <link th:href="@{/index.css}" rel="stylesheet" />
 </head>
-<body ng-app="MobileCatalogManagement" ng-controller="MobileCatalogController" >
+
+<body ng-app="MobileCatalogManagement" ng-controller="MobileCatalogController">
 <!--форма ввода-->
 <div class="container">
-    <div>
-<form ng-submit="submitMobileCatalog(catalogForm)" id="formEnterData">
-    <p><label>Id {{catalogForm.id}}</label></p>
-    <p><label>ФИО</label> <input type="text" ng-model="catalogForm.fullName" /></p>
-    <p><label>Должность</label><input type="text" ng-model="catalogForm.position"  /></p>
-    <p><label>Структурное подразделение</label>
-        <select id="allDepartments">
-        </select></p>
-    <p><label>Служебный номер</label> <input type="text" ng-model="catalogForm.serviceNumber"  /></p>
-    <p><label>Личный номер телефона</label><input type="text" ng-model="catalogForm.personalPhoneNumber"  /></p>
-    <p><label>Служебный мобильный номер телефона</label> <input type="text" ng-model="catalogForm.serviceMobilePhoneNumber"  /></p>
-    <p><input type="submit" value="Отправить" class="blue-button" /></p>
-</form>
+    <div class="interForm">
+        <form id="formEnterData">
+            <!--{{catalogForm.id}}-->
+            <div class="menuItem">
+                <label class="dataForm">Id </label>
+                <input class="enterData" type="text" ng-model="catalogForm.id" disabled />
+            </div>
+            <div class="menuItem">
+                <label class="dataForm">ФИО</label>
+                <input class="enterData" type="text" ng-model="catalogForm.fullName" />
+            </div>
+            <div class="menuItem">
+                <label class="dataForm">Должность</label>
+                <input class="enterData" type="text" ng-model="catalogForm.position" />
+            </div>
+            <div class="menuItem">
+                <label class="dataForm">Структурное подразделение</label>
+                <select class="selectForForm" id="allDepartments">
+                    <option  data-ng-repeat="dprmnt in departments" value="{{dprmnt.departmentId}}">{{dprmnt.nameDepartment}}</option>
+                </select>
+            </div>
+            <div class="menuItem">
+                <label class="dataForm">Служебный номер</label>
+                <input class="enterData" type="text" ng-model="catalogForm.serviceNumber" />
+            </div>
+            <div class="menuItem">
+                <label class="dataForm">Личный номер телефона</label>
+                <input class="enterData" type="text" ng-model="catalogForm.personalPhoneNumber" />
+            </div>
+            <div class="menuItem">
+                <label class="dataForm">Служебный мобильный<br> номер телефона</label>
+                <input class="enterData" type="text" ng-model="catalogForm.serviceMobilePhoneNumber" />
+            </div>
+            <div>
+                <input type="submit" value="Отправить" class="buttonFormData" ng-click="submitMobileCatalog(catalogForm)"/>
+                <input type="submit" value="Сброс формы" class="buttonFormData" ng-click="createMobileCatalog()" />
+            </div>
+        </form>
     </div>
-<br/>
+    <br />
     <div>
-<!--Очищает поля ввода-->
-        <p><input type="submit" value="Сброс формы" class="blue-button" ng-click="createMobileCatalog()"/>
-
         <!--выбор подразделения-->
-<label>Фильтр по подразделению:</label><select id="allDepartmentsForFilter" ng-model="allDepartmentsForFilter">
-    <option value selected="selected">Показать все</option>
-</select>
-<!--поиск по всем полям-->
-<label>Поиск<input type="text" ng-model="search"/></label>
-<!--удаление отмеченных полей-->
-<input type="submit" value="Удалить выбранные элементы" class="blue-button" ng-click="deleteListMobileCatalog()"/></p>
+        <label>Фильтр по подразделению:</label>
+        <select id="allDepartmentsForFilter" ng-model="allDepartmentsForFilter">
+            <option value selected="selected">Показать все</option>
+            <option  data-ng-repeat="dprmnt in departments" value="{{dprmnt.departmentId}}">{{dprmnt.nameDepartment}}</option>
+        </select>
+        <!--поиск по всем полям-->
+        <label>Поиск</label>
+        <input type="text" ng-model="search" />
+        <!--удаление отмеченных полей-->
+        <input type="submit" value="Удалить выбранные элементы" class="buttonFormData" ng-click="deleteListMobileCatalog()" /></p>
     </div>
     <div>
-<table border="1">
-    <tr>
-        <th></th>
-        <th>id</th>
-        <th>ФИО</th>
-        <th>Должность</th>
-        <th>Подразделение </th>
-        <th>Служебный номер </th>
-        <th>Личный номер телефона</th>
-        <th>Служебный моб номер </th>
-        <th>Редактировать</th>
-        <th>Удалить</th>
-    </tr>
-    <!-- $scope.employees -->
-    <tr data-ng-repeat="mobileCatalog in catalogs | filter: myFilter | filter: search">
-        <td><input type="checkbox" class="array-checked" name="technology" value={{mobileCatalog.id}}></td>
-        <td> {{ mobileCatalog.id }}</td>
-        <td> {{ mobileCatalog.fullName }}</td>
-        <td >{{ mobileCatalog.position }}</td>
-        <td >{{ mobileCatalog.myDepartment.nameDepartment}}</td>
-        <td >{{ mobileCatalog.serviceNumber.join(', ')}}</td>
-        <td >{{ mobileCatalog.personalPhoneNumber.join(', ')}}</td>
-        <td >{{ mobileCatalog.serviceMobilePhoneNumber.join(', ')}}</td>
-        <td>
-            <a ng-click="editMobileCatalog(mobileCatalog)" class="edit-button">Edit</a>
-        </td>
-        <td>
-            <a ng-click="deleteMobileCatalog(mobileCatalog.id)" class="delete-button">Delete</a>
-        </td>
-    </tr>
-</table>
-</div></div>
+        <table border="1">
+            <tr>
+                <th></th>
+                <th>id</th>
+                <th>ФИО</th>
+                <th>Должность</th>
+                <th>Подразделение </th>
+                <th>Служебный номер </th>
+                <th>Личный номер телефона</th>
+                <th>Служебный моб номер </th>
+                <th>Редактировать</th>
+                <th>Удалить</th>
+            </tr>
+            <!-- $scope.employees -->
+            <tr data-ng-repeat="mobileCatalog in catalogs | filter: myFilter | filter: search">
+                <td><input type="checkbox" class="array-checked" name="technology" value={{mobileCatalog.id}}></td>
+                <td> {{ mobileCatalog.id }}</td>
+                <td> {{ mobileCatalog.fullName }}</td>
+                <td>{{ mobileCatalog.position }}</td>
+                <td>{{ mobileCatalog.myDepartment.nameDepartment}}</td>
+                <td>{{ mobileCatalog.serviceNumber.join(', ')}}</td>
+                <td>{{ mobileCatalog.personalPhoneNumber.join(', ')}}</td>
+                <td>{{ mobileCatalog.serviceMobilePhoneNumber.join(', ')}}</td>
+                <td>
+                    <a ng-click="editMobileCatalog(mobileCatalog)" class="edit-button">Edit</a>
+                </td>
+                <td>
+                    <a ng-click="deleteMobileCatalog(mobileCatalog.id)" class="delete-button">Delete</a>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
 </body>
+
 </html>

@@ -1,21 +1,21 @@
 const app = angular.module("MobileCatalogManagement", []);
 
 app.controller("MobileCatalogController", function($scope, $http) {
-    let listDepartment = new Map(); // Инициализация списка подразделений
-    listDepartment.set("1","Отдел маркетинга");
-    listDepartment.set("2","Отдел сбыта");
-    listDepartment.set("3","Отдел кадров");
-    listDepartment.set("4","Экономический отдел");
-    listDepartment.set("5","Финансовый отдел");
-    listDepartment.set("6","Отдел снабжения");
-    listDepartment.set("7","Канцелярия");
-    listDepartment.set("8","Идеологический отдел");
-    let selestAllDepartments = document.getElementById("allDepartments");
-    let selestAllDepartmentsForFilter = document.getElementById("allDepartmentsForFilter");
-    for (const [key, value] of listDepartment) {    // Добавление списка подразделений в Select
-        selestAllDepartments.options.add(new Option(value,key));
-        selestAllDepartmentsForFilter.options.add(new Option(value,key));
-    }
+    // let listDepartment = new Map(); // Инициализация списка подразделений
+    // listDepartment.set("1","Отдел маркетинга");
+    // listDepartment.set("2","Отдел сбыта");
+    // listDepartment.set("3","Отдел кадров");
+    // listDepartment.set("4","Экономический отдел");
+    // listDepartment.set("5","Финансовый отдел");
+    // listDepartment.set("6","Отдел снабжения");
+    // listDepartment.set("7","Канцелярия");
+    // listDepartment.set("8","Идеологический отдел");
+    // let selestAllDepartments = document.getElementById("allDepartments");
+    // let selestAllDepartmentsForFilter = document.getElementById("allDepartmentsForFilter");
+    // for (const [key, value] of listDepartment) {    // Добавление списка подразделений в Select
+    //     selestAllDepartments.options.add(new Option(value,key));
+    //     selestAllDepartmentsForFilter.options.add(new Option(value,key));
+    // }
     $scope.departments = [];
     $scope.department = {
         departmentId: null,
@@ -31,7 +31,26 @@ app.controller("MobileCatalogController", function($scope, $http) {
         personalPhoneNumber: [],
         serviceMobilePhoneNumber: []
     };
+
+    _refreshDepartments();
     _refreshMobileCatalogData();
+
+    // get запрос на получение всех подразделений
+    function _refreshDepartments() {
+        $http({
+            method: 'GET',
+            url: '/departments'
+        }).then(
+            function(res) { // success
+                $scope.departments = res.data;
+                console.log(res.data);
+
+            },
+            function(res) { // error
+                console.log("Error: " + res.status + " : " + res.data);
+            }
+        );
+    }
     // get запрос на получение всех пользователей
     function _refreshMobileCatalogData() {
         $http({
@@ -58,7 +77,6 @@ app.controller("MobileCatalogController", function($scope, $http) {
     $scope.submitMobileCatalog = function(mobileCatalog) {
         let method;
         let url;
-
         if ($scope.catalogForm.id == null) {
             method = "POST";
             url = '/mobileCatalog/';
@@ -71,7 +89,7 @@ app.controller("MobileCatalogController", function($scope, $http) {
         }
 
         let list = document.getElementById("allDepartments")
-        $scope.catalogForm.myDepartment = {departmentId : list.value, nameDepartment:listDepartment.get(list.value)}
+        $scope.catalogForm.myDepartment = {departmentId : list.value, nameDepartment:$scope.departments[list.value-1].nameDepartment}
         $http({
                 method: method,
                 url: url,

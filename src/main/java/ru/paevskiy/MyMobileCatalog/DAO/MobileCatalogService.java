@@ -1,7 +1,9 @@
 package ru.paevskiy.MyMobileCatalog.DAO;
 
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import ru.paevskiy.MyMobileCatalog.Models.Department;
 import ru.paevskiy.MyMobileCatalog.Models.MobileCatalog;
 
 import java.util.List;
@@ -25,6 +27,12 @@ public class MobileCatalogService {
                 mobileCatalog.listToSql(mobileCatalog.getPersonalPhoneNumber()) + "', '" +
                 mobileCatalog.listToSql(mobileCatalog.getServiceMobilePhoneNumber()) + "')";
         jdbcTemplate.update(save);
+    }
+
+    // Получение всех подразделений
+    public List<Department> readAllDepartments() {
+        String read = "Select * from departments dps order by dps.departmentsid";
+        return jdbcTemplate.query(read, new DepartmentMapper());
     }
     // Получение всех пользователей
     public List<MobileCatalog> readAll() {
