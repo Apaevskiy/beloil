@@ -24,3 +24,5 @@ mvn package spring-boot:repackage
 docker build -t app.jar .
 
 docker-compose up
+
+p.s. Css поправил форму отправки данных, сделал закгрузку списка подразделений с сервера и простейшкую валидация(Просто проверяет, не пустые ли поля)
